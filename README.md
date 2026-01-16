@@ -198,7 +198,21 @@ for _, v := range voices {
 
 ## 🛠️ Custom Providers
 
-The Go SDK currently generates a concrete Client struct and does not natively support swappable custom TTS providers. To implement custom provider logic (e.g., routing requests to Baseten or Vertex AI), you will need to wrap the client methods in your own interface.
+The Go SDK generates a concrete `Client` struct by default. To support custom providers (like Baseten) or to mock the client for testing, use the `provider` package which defines a `TtsProvider` interface.
+
+```go
+import "github.com/camb-ai/cambai-go-sdk/provider"
+
+// 1. Use Default Implementation
+var ttsProvider provider.TtsProvider = provider.NewDefaultProvider(os.Getenv("CAMB_API_KEY"))
+
+// 2. Or Implement Your Own
+type MyCustomProvider struct {}
+func (m *MyCustomProvider) CreateTts(ctx context.Context, req *cambai.CreateTtsRequestPayload) (*cambai.CreateTtsOut, error) {
+    // Custom logic here (e.g. call Baseten)
+    return &cambai.CreateTtsOut{}, nil
+}
+```
 
 ## License
 
