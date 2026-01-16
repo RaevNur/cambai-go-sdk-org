@@ -8,11 +8,11 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -66,9 +66,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 //	    - 413: If uploaded file exceeds size limit
 func (c *Client) CreateProject(
 	ctx context.Context,
-	request *sdk.CreateProjectSetupRequestPayload,
+	request *cambaigosdk.CreateProjectSetupRequestPayload,
 	opts ...option.RequestOption,
-) (*sdk.CreateProjectSetupOut, error) {
+) (*cambaigosdk.CreateProjectSetupOut, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -99,7 +99,7 @@ func (c *Client) CreateProject(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -109,7 +109,7 @@ func (c *Client) CreateProject(
 		return apiError
 	}
 
-	var response *sdk.CreateProjectSetupOut
+	var response *cambaigosdk.CreateProjectSetupOut
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -131,9 +131,9 @@ func (c *Client) CreateProject(
 func (c *Client) CreateProjectSetupTaskStatus(
 	ctx context.Context,
 	taskID string,
-	request *sdk.CreateProjectSetupTaskStatusProjectSetupTaskIDGetRequest,
+	request *cambaigosdk.CreateProjectSetupTaskStatusProjectSetupTaskIDGetRequest,
 	opts ...option.RequestOption,
-) ([]*sdk.GetCreateProjectSetupResponse, error) {
+) ([]*cambaigosdk.GetCreateProjectSetupResponse, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -164,7 +164,7 @@ func (c *Client) CreateProjectSetupTaskStatus(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -174,7 +174,7 @@ func (c *Client) CreateProjectSetupTaskStatus(
 		return apiError
 	}
 
-	var response []*sdk.GetCreateProjectSetupResponse
+	var response []*cambaigosdk.GetCreateProjectSetupResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -221,9 +221,9 @@ func (c *Client) CreateProjectSetupTaskStatus(
 func (c *Client) GetProjectSetupResult(
 	ctx context.Context,
 	runID *int,
-	request *sdk.GetProjectSetupResultProjectSetupResultRunIDGetRequest,
+	request *cambaigosdk.GetProjectSetupResultProjectSetupResultRunIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.GetCreateProjectSetupResponse, error) {
+) (*cambaigosdk.GetCreateProjectSetupResponse, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -246,7 +246,7 @@ func (c *Client) GetProjectSetupResult(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -256,7 +256,7 @@ func (c *Client) GetProjectSetupResult(
 		return apiError
 	}
 
-	var response *sdk.GetCreateProjectSetupResponse
+	var response *cambaigosdk.GetCreateProjectSetupResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -277,9 +277,9 @@ func (c *Client) GetProjectSetupResult(
 
 func (c *Client) GetProjectSetupRunsResults(
 	ctx context.Context,
-	request *sdk.GetProjectSetupRunsResultsProjectSetupResultsPostRequest,
+	request *cambaigosdk.GetProjectSetupRunsResultsProjectSetupResultsPostRequest,
 	opts ...option.RequestOption,
-) ([]*sdk.GetCreateProjectSetupResponse, error) {
+) ([]*cambaigosdk.GetCreateProjectSetupResponse, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -310,7 +310,7 @@ func (c *Client) GetProjectSetupRunsResults(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -320,7 +320,7 @@ func (c *Client) GetProjectSetupRunsResults(
 		return apiError
 	}
 
-	var response []*sdk.GetCreateProjectSetupResponse
+	var response []*cambaigosdk.GetCreateProjectSetupResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

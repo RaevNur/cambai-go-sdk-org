@@ -8,11 +8,11 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -37,9 +37,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) CreateTranslatedTts(
 	ctx context.Context,
-	request *sdk.CreateTranslatedTtsRequestPayload,
+	request *cambaigosdk.CreateTranslatedTtsRequestPayload,
 	opts ...option.RequestOption,
-) (*sdk.CreateTranslatedTtsOut, error) {
+) (*cambaigosdk.CreateTranslatedTtsOut, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -73,7 +73,7 @@ func (c *Client) CreateTranslatedTts(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -83,7 +83,7 @@ func (c *Client) CreateTranslatedTts(
 		return apiError
 	}
 
-	var response *sdk.CreateTranslatedTtsOut
+	var response *cambaigosdk.CreateTranslatedTtsOut
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -105,9 +105,9 @@ func (c *Client) CreateTranslatedTts(
 func (c *Client) GetTranslatedTtsTaskStatus(
 	ctx context.Context,
 	taskID string,
-	request *sdk.GetTranslatedTtsTaskStatusTranslatedTtsTaskIDGetRequest,
+	request *cambaigosdk.GetTranslatedTtsTaskStatusTranslatedTtsTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -138,7 +138,7 @@ func (c *Client) GetTranslatedTtsTaskStatus(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -148,7 +148,7 @@ func (c *Client) GetTranslatedTtsTaskStatus(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

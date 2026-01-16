@@ -7,11 +7,11 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -36,9 +36,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) GetSourceLanguages(
 	ctx context.Context,
-	request *sdk.GetSourceLanguagesSourceLanguagesGetRequest,
+	request *cambaigosdk.GetSourceLanguagesSourceLanguagesGetRequest,
 	opts ...option.RequestOption,
-) ([]*sdk.LanguagePydanticModel, error) {
+) ([]*cambaigosdk.LanguagePydanticModel, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -69,7 +69,7 @@ func (c *Client) GetSourceLanguages(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -79,7 +79,7 @@ func (c *Client) GetSourceLanguages(
 		return apiError
 	}
 
-	var response []*sdk.LanguagePydanticModel
+	var response []*cambaigosdk.LanguagePydanticModel
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -99,9 +99,9 @@ func (c *Client) GetSourceLanguages(
 
 func (c *Client) GetTargetLanguages(
 	ctx context.Context,
-	request *sdk.GetTargetLanguagesTargetLanguagesGetRequest,
+	request *cambaigosdk.GetTargetLanguagesTargetLanguagesGetRequest,
 	opts ...option.RequestOption,
-) ([]*sdk.LanguagePydanticModel, error) {
+) ([]*cambaigosdk.LanguagePydanticModel, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -132,7 +132,7 @@ func (c *Client) GetTargetLanguages(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -142,7 +142,7 @@ func (c *Client) GetTargetLanguages(
 		return apiError
 	}
 
-	var response []*sdk.LanguagePydanticModel
+	var response []*cambaigosdk.LanguagePydanticModel
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

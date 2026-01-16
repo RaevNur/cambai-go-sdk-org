@@ -8,12 +8,12 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	multipart "mime/multipart"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -38,9 +38,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) ListVoices(
 	ctx context.Context,
-	request *sdk.ListVoicesListVoicesGetRequest,
+	request *cambaigosdk.ListVoicesListVoicesGetRequest,
 	opts ...option.RequestOption,
-) ([]*sdk.ListVoicesListVoicesGetResponseItem, error) {
+) ([]*cambaigosdk.ListVoicesListVoicesGetResponseItem, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -71,7 +71,7 @@ func (c *Client) ListVoices(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -81,7 +81,7 @@ func (c *Client) ListVoices(
 		return apiError
 	}
 
-	var response []*sdk.ListVoicesListVoicesGetResponseItem
+	var response []*cambaigosdk.ListVoicesListVoicesGetResponseItem
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -101,9 +101,9 @@ func (c *Client) ListVoices(
 
 func (c *Client) CreateCustomVoice(
 	ctx context.Context,
-	request *sdk.BodyCreateCustomVoiceCreateCustomVoicePost,
+	request *cambaigosdk.BodyCreateCustomVoiceCreateCustomVoicePost,
 	opts ...option.RequestOption,
-) (*sdk.CreateCustomVoiceOut, error) {
+) (*cambaigosdk.CreateCustomVoiceOut, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -134,7 +134,7 @@ func (c *Client) CreateCustomVoice(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -144,7 +144,7 @@ func (c *Client) CreateCustomVoice(
 		return apiError
 	}
 
-	var response *sdk.CreateCustomVoiceOut
+	var response *cambaigosdk.CreateCustomVoiceOut
 	requestBuffer := bytes.NewBuffer(nil)
 	writer := multipart.NewWriter(requestBuffer)
 	if err := writer.WriteField("voice_name", fmt.Sprintf("%v", request.VoiceName)); err != nil {

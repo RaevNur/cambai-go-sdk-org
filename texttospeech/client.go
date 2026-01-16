@@ -8,11 +8,11 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -37,7 +37,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) Tts(
 	ctx context.Context,
-	request *sdk.CreateStreamTtsRequestPayload,
+	request *cambaigosdk.CreateStreamTtsRequestPayload,
 	opts ...option.RequestOption,
 ) (io.Reader, error) {
 	options := core.NewRequestOptions(opts...)
@@ -62,7 +62,7 @@ func (c *Client) Tts(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -93,9 +93,9 @@ func (c *Client) Tts(
 
 func (c *Client) CreateTts(
 	ctx context.Context,
-	request *sdk.CreateTtsRequestPayload,
+	request *cambaigosdk.CreateTtsRequestPayload,
 	opts ...option.RequestOption,
-) (*sdk.CreateTtsOut, error) {
+) (*cambaigosdk.CreateTtsOut, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -126,7 +126,7 @@ func (c *Client) CreateTts(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -136,7 +136,7 @@ func (c *Client) CreateTts(
 		return apiError
 	}
 
-	var response *sdk.CreateTtsOut
+	var response *cambaigosdk.CreateTtsOut
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -158,9 +158,9 @@ func (c *Client) CreateTts(
 func (c *Client) GetTtsResult(
 	ctx context.Context,
 	taskID string,
-	request *sdk.GetTtsResultTtsTaskIDGetRequest,
+	request *cambaigosdk.GetTtsResultTtsTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -191,7 +191,7 @@ func (c *Client) GetTtsResult(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -201,7 +201,7 @@ func (c *Client) GetTtsResult(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -252,9 +252,9 @@ func (c *Client) GetTtsResult(
 func (c *Client) GetTtsRunInfo(
 	ctx context.Context,
 	runID *int,
-	request *sdk.GetTtsRunInfoTtsResultRunIDGetRequest,
+	request *cambaigosdk.GetTtsRunInfoTtsResultRunIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.GetTtsRunInfoTtsResultRunIDGetResponse, error) {
+) (*cambaigosdk.GetTtsRunInfoTtsResultRunIDGetResponse, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -285,7 +285,7 @@ func (c *Client) GetTtsRunInfo(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -295,7 +295,7 @@ func (c *Client) GetTtsRunInfo(
 		return apiError
 	}
 
-	var response *sdk.GetTtsRunInfoTtsResultRunIDGetResponse
+	var response *cambaigosdk.GetTtsRunInfoTtsResultRunIDGetResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -315,9 +315,9 @@ func (c *Client) GetTtsRunInfo(
 
 func (c *Client) GetTtsResults(
 	ctx context.Context,
-	request *sdk.GetTtsResultsTtsResultsPostRequest,
+	request *cambaigosdk.GetTtsResultsTtsResultsPostRequest,
 	opts ...option.RequestOption,
-) (map[string]*sdk.GetTtsResultsTtsResultsPostResponseValue, error) {
+) (map[string]*cambaigosdk.GetTtsResultsTtsResultsPostResponseValue, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -351,7 +351,7 @@ func (c *Client) GetTtsResults(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -361,7 +361,7 @@ func (c *Client) GetTtsResults(
 		return apiError
 	}
 
-	var response map[string]*sdk.GetTtsResultsTtsResultsPostResponseValue
+	var response map[string]*cambaigosdk.GetTtsResultsTtsResultsPostResponseValue
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -383,9 +383,9 @@ func (c *Client) GetTtsResults(
 func (c *Client) GetTtsResultDiscord(
 	ctx context.Context,
 	taskID string,
-	request *sdk.GetTtsResultDiscordDiscordTtsTaskIDGetRequest,
+	request *cambaigosdk.GetTtsResultDiscordDiscordTtsTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -416,7 +416,7 @@ func (c *Client) GetTtsResultDiscord(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -426,7 +426,7 @@ func (c *Client) GetTtsResultDiscord(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

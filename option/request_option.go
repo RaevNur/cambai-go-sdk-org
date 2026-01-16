@@ -3,8 +3,8 @@
 package option
 
 import (
+	core "github.com/camb-ai/cambai-go-sdk/core"
 	http "net/http"
-	core "sdk/core"
 )
 
 // RequestOption adapts the behavior of an indivdual request.

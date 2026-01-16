@@ -8,12 +8,12 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	multipart "mime/multipart"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -38,9 +38,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) CreateStory(
 	ctx context.Context,
-	request *sdk.BodyCreateStoryStoryPost,
+	request *cambaigosdk.BodyCreateStoryStoryPost,
 	opts ...option.RequestOption,
-) (*sdk.CreateStoryStoryPostResponse, error) {
+) (*cambaigosdk.CreateStoryStoryPostResponse, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -71,7 +71,7 @@ func (c *Client) CreateStory(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -81,7 +81,7 @@ func (c *Client) CreateStory(
 		return apiError
 	}
 
-	var response *sdk.CreateStoryStoryPostResponse
+	var response *cambaigosdk.CreateStoryStoryPostResponse
 	requestBuffer := bytes.NewBuffer(nil)
 	writer := multipart.NewWriter(requestBuffer)
 	if err := core.WriteMultipartJSON(writer, "source_language", request.SourceLanguage); err != nil {
@@ -137,9 +137,9 @@ func (c *Client) CreateStory(
 
 func (c *Client) SetupStory(
 	ctx context.Context,
-	request *sdk.BodySetupStoryStorySetupPost,
+	request *cambaigosdk.BodySetupStoryStorySetupPost,
 	opts ...option.RequestOption,
-) (*sdk.SetupStoryStorySetupPostResponse, error) {
+) (*cambaigosdk.SetupStoryStorySetupPostResponse, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -170,7 +170,7 @@ func (c *Client) SetupStory(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -180,7 +180,7 @@ func (c *Client) SetupStory(
 		return apiError
 	}
 
-	var response *sdk.SetupStoryStorySetupPostResponse
+	var response *cambaigosdk.SetupStoryStorySetupPostResponse
 	requestBuffer := bytes.NewBuffer(nil)
 	writer := multipart.NewWriter(requestBuffer)
 	if err := core.WriteMultipartJSON(writer, "source_language", request.SourceLanguage); err != nil {
@@ -237,9 +237,9 @@ func (c *Client) SetupStory(
 func (c *Client) GetStoryStatus(
 	ctx context.Context,
 	taskID string,
-	request *sdk.GetStoryStatusStoryTaskIDGetRequest,
+	request *cambaigosdk.GetStoryStatusStoryTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -270,7 +270,7 @@ func (c *Client) GetStoryStatus(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -280,7 +280,7 @@ func (c *Client) GetStoryStatus(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -301,7 +301,7 @@ func (c *Client) GetStoryStatus(
 func (c *Client) GetStoryRunInfo(
 	ctx context.Context,
 	runID *int,
-	request *sdk.GetStoryRunInfoStoryResultRunIDGetRequest,
+	request *cambaigosdk.GetStoryRunInfoStoryResultRunIDGetRequest,
 	opts ...option.RequestOption,
 ) (map[string]interface{}, error) {
 	options := core.NewRequestOptions(opts...)
@@ -334,7 +334,7 @@ func (c *Client) GetStoryRunInfo(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -364,7 +364,7 @@ func (c *Client) GetStoryRunInfo(
 
 func (c *Client) GetStoriesRunsResults(
 	ctx context.Context,
-	request *sdk.GetStoriesRunsResultsStoriesResultsPostRequest,
+	request *cambaigosdk.GetStoriesRunsResultsStoriesResultsPostRequest,
 	opts ...option.RequestOption,
 ) (map[string]map[string]interface{}, error) {
 	options := core.NewRequestOptions(opts...)
@@ -400,7 +400,7 @@ func (c *Client) GetStoriesRunsResults(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

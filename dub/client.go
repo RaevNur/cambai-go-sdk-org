@@ -8,11 +8,11 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -37,9 +37,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) EndToEndDubbing(
 	ctx context.Context,
-	request *sdk.EndToEndDubbingRequestPayload,
+	request *cambaigosdk.EndToEndDubbingRequestPayload,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineCallResult, error) {
+) (*cambaigosdk.OrchestratorPipelineCallResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -70,7 +70,7 @@ func (c *Client) EndToEndDubbing(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -80,7 +80,7 @@ func (c *Client) EndToEndDubbing(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineCallResult
+	var response *cambaigosdk.OrchestratorPipelineCallResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -102,9 +102,9 @@ func (c *Client) EndToEndDubbing(
 func (c *Client) GetEndToEndDubbingStatus(
 	ctx context.Context,
 	taskID string,
-	request *sdk.GetEndToEndDubbingStatusDubTaskIDGetRequest,
+	request *cambaigosdk.GetEndToEndDubbingStatusDubTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -135,7 +135,7 @@ func (c *Client) GetEndToEndDubbingStatus(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -145,7 +145,7 @@ func (c *Client) GetEndToEndDubbingStatus(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -168,9 +168,9 @@ func (c *Client) GetEndToEndDubbingStatus(
 func (c *Client) GetDubbedRunInfo(
 	ctx context.Context,
 	runID *int,
-	request *sdk.GetDubbedRunInfoDubResultRunIDGetRequest,
+	request *cambaigosdk.GetDubbedRunInfoDubResultRunIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.GetDubbedRunInfoDubResultRunIDGetResponse, error) {
+) (*cambaigosdk.GetDubbedRunInfoDubResultRunIDGetResponse, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -193,7 +193,7 @@ func (c *Client) GetDubbedRunInfo(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -203,7 +203,7 @@ func (c *Client) GetDubbedRunInfo(
 		return apiError
 	}
 
-	var response *sdk.GetDubbedRunInfoDubResultRunIDGetResponse
+	var response *cambaigosdk.GetDubbedRunInfoDubResultRunIDGetResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -223,9 +223,9 @@ func (c *Client) GetDubbedRunInfo(
 
 func (c *Client) GetDubbingRunsResults(
 	ctx context.Context,
-	request *sdk.GetDubbingRunsResultsDubbingResultsPostRequest,
+	request *cambaigosdk.GetDubbingRunsResultsDubbingResultsPostRequest,
 	opts ...option.RequestOption,
-) (map[string]*sdk.GetDubbingRunsResultsDubbingResultsPostResponseValue, error) {
+) (map[string]*cambaigosdk.GetDubbingRunsResultsDubbingResultsPostResponseValue, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -259,7 +259,7 @@ func (c *Client) GetDubbingRunsResults(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -269,7 +269,7 @@ func (c *Client) GetDubbingRunsResults(
 		return apiError
 	}
 
-	var response map[string]*sdk.GetDubbingRunsResultsDubbingResultsPostResponseValue
+	var response map[string]*cambaigosdk.GetDubbingRunsResultsDubbingResultsPostResponseValue
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -291,8 +291,8 @@ func (c *Client) GetDubbingRunsResults(
 func (c *Client) GetDubbedRunTranscript(
 	ctx context.Context,
 	runID *int,
-	language sdk.Languages,
-	request *sdk.GetDubbedRunTranscriptTranscriptRunIDLanguageGetRequest,
+	language cambaigosdk.Languages,
+	request *cambaigosdk.GetDubbedRunTranscriptTranscriptRunIDLanguageGetRequest,
 	opts ...option.RequestOption,
 ) (map[string]string, error) {
 	options := core.NewRequestOptions(opts...)
@@ -325,7 +325,7 @@ func (c *Client) GetDubbedRunTranscript(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -356,10 +356,10 @@ func (c *Client) GetDubbedRunTranscript(
 func (c *Client) GetDubbedOutputInAltFormat(
 	ctx context.Context,
 	runID *int,
-	language sdk.Languages,
-	request *sdk.DubbedOutputInAltFormatRequestPayload,
+	language cambaigosdk.Languages,
+	request *cambaigosdk.DubbedOutputInAltFormatRequestPayload,
 	opts ...option.RequestOption,
-) (*sdk.GetDubbedOutputInAltFormatDubAltFormatRunIDLanguagePostResponse, error) {
+) (*cambaigosdk.GetDubbedOutputInAltFormatDubAltFormatRunIDLanguagePostResponse, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -382,7 +382,7 @@ func (c *Client) GetDubbedOutputInAltFormat(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -392,7 +392,7 @@ func (c *Client) GetDubbedOutputInAltFormat(
 		return apiError
 	}
 
-	var response *sdk.GetDubbedOutputInAltFormatDubAltFormatRunIDLanguagePostResponse
+	var response *cambaigosdk.GetDubbedOutputInAltFormatDubAltFormatRunIDLanguagePostResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -414,9 +414,9 @@ func (c *Client) GetDubbedOutputInAltFormat(
 func (c *Client) GetDubbedOutputInAltFormatStatus(
 	ctx context.Context,
 	taskID string,
-	request *sdk.GetDubbedOutputInAltFormatStatusDubAltFormatTaskIDGetRequest,
+	request *cambaigosdk.GetDubbedOutputInAltFormatStatusDubAltFormatTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -447,7 +447,7 @@ func (c *Client) GetDubbedOutputInAltFormatStatus(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -457,7 +457,7 @@ func (c *Client) GetDubbedOutputInAltFormatStatus(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -478,9 +478,9 @@ func (c *Client) GetDubbedOutputInAltFormatStatus(
 func (c *Client) PollDiscordDubTask(
 	ctx context.Context,
 	taskID string,
-	request *sdk.PollDiscordDubTaskDiscordDubTaskIDGetRequest,
+	request *cambaigosdk.PollDiscordDubTaskDiscordDubTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -511,7 +511,7 @@ func (c *Client) PollDiscordDubTask(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -521,7 +521,7 @@ func (c *Client) PollDiscordDubTask(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -542,9 +542,9 @@ func (c *Client) PollDiscordDubTask(
 func (c *Client) PollTwitterDubTask(
 	ctx context.Context,
 	taskID string,
-	request *sdk.PollTwitterDubTaskTwitterDubTaskIDGetRequest,
+	request *cambaigosdk.PollTwitterDubTaskTwitterDubTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -575,7 +575,7 @@ func (c *Client) PollTwitterDubTask(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -585,7 +585,7 @@ func (c *Client) PollTwitterDubTask(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

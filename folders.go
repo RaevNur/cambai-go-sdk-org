@@ -5,7 +5,7 @@ package cambai
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "sdk/core"
+	core "github.com/camb-ai/cambai-go-sdk/core"
 )
 
 type CreateFolderPayload struct {

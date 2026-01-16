@@ -8,11 +8,11 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -38,9 +38,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 func (c *Client) CreateTranslationForExistingStory(
 	ctx context.Context,
 	runID *int,
-	request *sdk.CreateTranslationForExistingStoryRequestPayload,
+	request *cambaigosdk.CreateTranslationForExistingStoryRequestPayload,
 	opts ...option.RequestOption,
-) (*sdk.AddTargetLanguageOut, error) {
+) (*cambaigosdk.AddTargetLanguageOut, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -63,7 +63,7 @@ func (c *Client) CreateTranslationForExistingStory(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -73,7 +73,7 @@ func (c *Client) CreateTranslationForExistingStory(
 		return apiError
 	}
 
-	var response *sdk.AddTargetLanguageOut
+	var response *cambaigosdk.AddTargetLanguageOut
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -95,9 +95,9 @@ func (c *Client) CreateTranslationForExistingStory(
 func (c *Client) GetTranslatedStoryStatus(
 	ctx context.Context,
 	taskID string,
-	request *sdk.GetTranslatedStoryStatusTranslatedStoryTaskIDGetRequest,
+	request *cambaigosdk.GetTranslatedStoryStatusTranslatedStoryTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -128,7 +128,7 @@ func (c *Client) GetTranslatedStoryStatus(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -138,7 +138,7 @@ func (c *Client) GetTranslatedStoryStatus(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -159,8 +159,8 @@ func (c *Client) GetTranslatedStoryStatus(
 func (c *Client) GetTranslatedStoryRunInfo(
 	ctx context.Context,
 	runID *int,
-	targetLanguage sdk.Languages,
-	request *sdk.GetTranslatedStoryRunInfoTranslatedStoryResultRunIDTargetLanguageGetRequest,
+	targetLanguage cambaigosdk.Languages,
+	request *cambaigosdk.GetTranslatedStoryRunInfoTranslatedStoryResultRunIDTargetLanguageGetRequest,
 	opts ...option.RequestOption,
 ) (map[string]interface{}, error) {
 	options := core.NewRequestOptions(opts...)
@@ -193,7 +193,7 @@ func (c *Client) GetTranslatedStoryRunInfo(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

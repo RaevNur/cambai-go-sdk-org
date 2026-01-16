@@ -8,12 +8,12 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	multipart "mime/multipart"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -38,9 +38,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) GetDictionaries(
 	ctx context.Context,
-	request *sdk.GetDictionariesDictionariesGetRequest,
+	request *cambaigosdk.GetDictionariesDictionariesGetRequest,
 	opts ...option.RequestOption,
-) ([]*sdk.DictionaryWithTerms, error) {
+) ([]*cambaigosdk.DictionaryWithTerms, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -71,7 +71,7 @@ func (c *Client) GetDictionaries(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -81,7 +81,7 @@ func (c *Client) GetDictionaries(
 		return apiError
 	}
 
-	var response []*sdk.DictionaryWithTerms
+	var response []*cambaigosdk.DictionaryWithTerms
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -101,7 +101,7 @@ func (c *Client) GetDictionaries(
 
 func (c *Client) CreateDictionaryFromFile(
 	ctx context.Context,
-	request *sdk.BodyCreateDictionaryFromFileDictionariesCreateFromFilePost,
+	request *cambaigosdk.BodyCreateDictionaryFromFileDictionariesCreateFromFilePost,
 	opts ...option.RequestOption,
 ) (interface{}, error) {
 	options := core.NewRequestOptions(opts...)
@@ -134,7 +134,7 @@ func (c *Client) CreateDictionaryFromFile(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -181,9 +181,9 @@ func (c *Client) CreateDictionaryFromFile(
 func (c *Client) GetDictionaryInfo(
 	ctx context.Context,
 	dictionaryID int,
-	request *sdk.GetDictionaryInfoDictionariesDictionaryIDGetRequest,
+	request *cambaigosdk.GetDictionaryInfoDictionariesDictionaryIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.DictionaryWithTerms, error) {
+) (*cambaigosdk.DictionaryWithTerms, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -214,7 +214,7 @@ func (c *Client) GetDictionaryInfo(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -224,7 +224,7 @@ func (c *Client) GetDictionaryInfo(
 		return apiError
 	}
 
-	var response *sdk.DictionaryWithTerms
+	var response *cambaigosdk.DictionaryWithTerms
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -245,7 +245,7 @@ func (c *Client) GetDictionaryInfo(
 func (c *Client) DeleteDictionary(
 	ctx context.Context,
 	dictionaryID int,
-	request *sdk.DeleteDictionaryDictionariesDictionaryIDDeleteRequest,
+	request *cambaigosdk.DeleteDictionaryDictionariesDictionaryIDDeleteRequest,
 	opts ...option.RequestOption,
 ) (interface{}, error) {
 	options := core.NewRequestOptions(opts...)
@@ -278,7 +278,7 @@ func (c *Client) DeleteDictionary(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -309,9 +309,9 @@ func (c *Client) DeleteDictionary(
 func (c *Client) GetDictionaryDetails(
 	ctx context.Context,
 	dictionaryID int,
-	request *sdk.GetDictionaryDetailsDictionariesDictionaryIDFullDetailsGetRequest,
+	request *cambaigosdk.GetDictionaryDetailsDictionariesDictionaryIDFullDetailsGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.DictionaryWithTerms, error) {
+) (*cambaigosdk.DictionaryWithTerms, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -342,7 +342,7 @@ func (c *Client) GetDictionaryDetails(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -352,7 +352,7 @@ func (c *Client) GetDictionaryDetails(
 		return apiError
 	}
 
-	var response *sdk.DictionaryWithTerms
+	var response *cambaigosdk.DictionaryWithTerms
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -373,7 +373,7 @@ func (c *Client) GetDictionaryDetails(
 func (c *Client) AddTermToDictionary(
 	ctx context.Context,
 	dictionaryID int,
-	request *sdk.AddDictionaryTermPayload,
+	request *cambaigosdk.AddDictionaryTermPayload,
 	opts ...option.RequestOption,
 ) (interface{}, error) {
 	options := core.NewRequestOptions(opts...)
@@ -406,7 +406,7 @@ func (c *Client) AddTermToDictionary(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -439,7 +439,7 @@ func (c *Client) UpdateTermTranslationInDictionaryUsingTermID(
 	ctx context.Context,
 	dictionaryID int,
 	termID int,
-	request *sdk.UpdateTermTranslationsPayload,
+	request *cambaigosdk.UpdateTermTranslationsPayload,
 	opts ...option.RequestOption,
 ) (interface{}, error) {
 	options := core.NewRequestOptions(opts...)
@@ -472,7 +472,7 @@ func (c *Client) UpdateTermTranslationInDictionaryUsingTermID(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -505,7 +505,7 @@ func (c *Client) DeleteDictionaryTerm(
 	ctx context.Context,
 	dictionaryID int,
 	termID int,
-	request *sdk.DeleteDictionaryTermDictionariesTermDictionaryIDTermIDDeleteRequest,
+	request *cambaigosdk.DeleteDictionaryTermDictionariesTermDictionaryIDTermIDDeleteRequest,
 	opts ...option.RequestOption,
 ) (interface{}, error) {
 	options := core.NewRequestOptions(opts...)
@@ -538,7 +538,7 @@ func (c *Client) DeleteDictionaryTerm(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

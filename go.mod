@@ -1,4 +1,4 @@
-module sdk
+module github.com/camb-ai/cambai-go-sdk
 
 go 1.13
 

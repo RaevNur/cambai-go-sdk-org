@@ -7,11 +7,11 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -36,9 +36,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) ListFolders(
 	ctx context.Context,
-	request *sdk.ListFoldersFoldersGetRequest,
+	request *cambaigosdk.ListFoldersFoldersGetRequest,
 	opts ...option.RequestOption,
-) ([]*sdk.Folder, error) {
+) ([]*cambaigosdk.Folder, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -69,7 +69,7 @@ func (c *Client) ListFolders(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -79,7 +79,7 @@ func (c *Client) ListFolders(
 		return apiError
 	}
 
-	var response []*sdk.Folder
+	var response []*cambaigosdk.Folder
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -99,7 +99,7 @@ func (c *Client) ListFolders(
 
 func (c *Client) CreateFolder(
 	ctx context.Context,
-	request *sdk.CreateFolderPayload,
+	request *cambaigosdk.CreateFolderPayload,
 	opts ...option.RequestOption,
 ) (interface{}, error) {
 	options := core.NewRequestOptions(opts...)
@@ -132,7 +132,7 @@ func (c *Client) CreateFolder(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

@@ -4,7 +4,7 @@ package cambai
 
 import (
 	json "encoding/json"
-	core "sdk/core"
+	core "github.com/camb-ai/cambai-go-sdk/core"
 	time "time"
 )
 

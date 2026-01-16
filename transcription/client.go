@@ -8,12 +8,12 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	multipart "mime/multipart"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -38,9 +38,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) CreateTranscription(
 	ctx context.Context,
-	request *sdk.BodyCreateTranscriptionTranscribePost,
+	request *cambaigosdk.BodyCreateTranscriptionTranscribePost,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineCallResult, error) {
+) (*cambaigosdk.OrchestratorPipelineCallResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -71,7 +71,7 @@ func (c *Client) CreateTranscription(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -81,7 +81,7 @@ func (c *Client) CreateTranscription(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineCallResult
+	var response *cambaigosdk.OrchestratorPipelineCallResult
 	requestBuffer := bytes.NewBuffer(nil)
 	writer := multipart.NewWriter(requestBuffer)
 	if err := core.WriteMultipartJSON(writer, "language", request.Language); err != nil {
@@ -138,9 +138,9 @@ func (c *Client) CreateTranscription(
 func (c *Client) GetTranscriptionTaskStatus(
 	ctx context.Context,
 	taskID string,
-	request *sdk.GetTranscriptionTaskStatusTranscribeTaskIDGetRequest,
+	request *cambaigosdk.GetTranscriptionTaskStatusTranscribeTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -171,7 +171,7 @@ func (c *Client) GetTranscriptionTaskStatus(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -181,7 +181,7 @@ func (c *Client) GetTranscriptionTaskStatus(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -204,9 +204,9 @@ func (c *Client) GetTranscriptionTaskStatus(
 func (c *Client) GetTranscriptionResult(
 	ctx context.Context,
 	runID *int,
-	request *sdk.GetTranscriptionResultTranscriptionResultRunIDGetRequest,
+	request *cambaigosdk.GetTranscriptionResultTranscriptionResultRunIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.TranscriptionResult, error) {
+) (*cambaigosdk.TranscriptionResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -237,7 +237,7 @@ func (c *Client) GetTranscriptionResult(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -247,7 +247,7 @@ func (c *Client) GetTranscriptionResult(
 		return apiError
 	}
 
-	var response *sdk.TranscriptionResult
+	var response *cambaigosdk.TranscriptionResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -267,9 +267,9 @@ func (c *Client) GetTranscriptionResult(
 
 func (c *Client) GetTranscriptionResults(
 	ctx context.Context,
-	request *sdk.GetTranscriptionResultsTranscriptionResultsPostRequest,
+	request *cambaigosdk.GetTranscriptionResultsTranscriptionResultsPostRequest,
 	opts ...option.RequestOption,
-) (map[string]*sdk.TranscriptionResult, error) {
+) (map[string]*cambaigosdk.TranscriptionResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -303,7 +303,7 @@ func (c *Client) GetTranscriptionResults(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -313,7 +313,7 @@ func (c *Client) GetTranscriptionResults(
 		return apiError
 	}
 
-	var response map[string]*sdk.TranscriptionResult
+	var response map[string]*cambaigosdk.TranscriptionResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

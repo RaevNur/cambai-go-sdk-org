@@ -8,11 +8,11 @@ import (
 	json "encoding/json"
 	errors "errors"
 	fmt "fmt"
+	cambaigosdk "github.com/camb-ai/cambai-go-sdk"
+	core "github.com/camb-ai/cambai-go-sdk/core"
+	option "github.com/camb-ai/cambai-go-sdk/option"
 	io "io"
 	http "net/http"
-	sdk "sdk"
-	core "sdk/core"
-	option "sdk/option"
 )
 
 type Client struct {
@@ -37,9 +37,9 @@ func NewClient(opts ...option.RequestOption) *Client {
 
 func (c *Client) CreateTextToAudio(
 	ctx context.Context,
-	request *sdk.CreateTextToAudioRequestPayload,
+	request *cambaigosdk.CreateTextToAudioRequestPayload,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineCallResult, error) {
+) (*cambaigosdk.OrchestratorPipelineCallResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -73,7 +73,7 @@ func (c *Client) CreateTextToAudio(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -83,7 +83,7 @@ func (c *Client) CreateTextToAudio(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineCallResult
+	var response *cambaigosdk.OrchestratorPipelineCallResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -105,9 +105,9 @@ func (c *Client) CreateTextToAudio(
 func (c *Client) GetTextToAudioStatus(
 	ctx context.Context,
 	taskID string,
-	request *sdk.GetTextToAudioStatusTextToSoundTaskIDGetRequest,
+	request *cambaigosdk.GetTextToAudioStatusTextToSoundTaskIDGetRequest,
 	opts ...option.RequestOption,
-) (*sdk.OrchestratorPipelineResult, error) {
+) (*cambaigosdk.OrchestratorPipelineResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -138,7 +138,7 @@ func (c *Client) GetTextToAudioStatus(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -148,7 +148,7 @@ func (c *Client) GetTextToAudioStatus(
 		return apiError
 	}
 
-	var response *sdk.OrchestratorPipelineResult
+	var response *cambaigosdk.OrchestratorPipelineResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -197,7 +197,7 @@ func (c *Client) GetTextToAudioStatus(
 func (c *Client) GetTextToAudioResult(
 	ctx context.Context,
 	runID *int,
-	request *sdk.GetTextToAudioResultTextToSoundResultRunIDGetRequest,
+	request *cambaigosdk.GetTextToAudioResultTextToSoundResultRunIDGetRequest,
 	opts ...option.RequestOption,
 ) (io.Reader, error) {
 	options := core.NewRequestOptions(opts...)
@@ -240,9 +240,9 @@ func (c *Client) GetTextToAudioResult(
 
 func (c *Client) GetTextToSoundResults(
 	ctx context.Context,
-	request *sdk.GetTextToSoundResultsTextToSoundResultsPostRequest,
+	request *cambaigosdk.GetTextToSoundResultsTextToSoundResultsPostRequest,
 	opts ...option.RequestOption,
-) (map[string]*sdk.TextToAudioResult, error) {
+) (map[string]*cambaigosdk.TextToAudioResult, error) {
 	options := core.NewRequestOptions(opts...)
 
 	baseURL := "https://client.camb.ai/apis"
@@ -276,7 +276,7 @@ func (c *Client) GetTextToSoundResults(
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 422:
-			value := new(sdk.UnprocessableEntityError)
+			value := new(cambaigosdk.UnprocessableEntityError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -286,7 +286,7 @@ func (c *Client) GetTextToSoundResults(
 		return apiError
 	}
 
-	var response map[string]*sdk.TextToAudioResult
+	var response map[string]*cambaigosdk.TextToAudioResult
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
