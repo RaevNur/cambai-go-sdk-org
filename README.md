@@ -196,6 +196,10 @@ for _, v := range voices {
 }
 ```
 
+## 🛠️ Custom Providers
+
+The Go SDK currently generates a concrete Client struct and does not natively support swappable custom TTS providers. To implement custom provider logic (e.g., routing requests to Baseten or Vertex AI), you will need to wrap the client methods in your own interface.
+
 ## License
 
 MIT
