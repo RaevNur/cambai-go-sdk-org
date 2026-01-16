@@ -23,26 +23,13 @@ func main() {
 		option.WithAPIKey(apiKey),
 	)
 
-	// Fetch Language ID for English (United States)
-	sourceLangs, _ := c.Languages.GetSourceLanguages(context.Background(), &cambai.GetSourceLanguagesSourceLanguagesGetRequest{})
-	var englishID int
-	for _, l := range sourceLangs {
-		if l.ShortName == "en-us" {
-			englishID = l.ID
-			break
-		}
-	}
-	if englishID == 0 {
-		englishID = 1 // Fallback
-	}
-
 	fmt.Println("Sending TTS request...")
 	resp, err := c.TextToSpeech.CreateTts(
 		context.Background(),
 		&cambai.CreateTtsRequestPayload{
 			Text:     "Hello from Go SDK!",
 			VoiceID:  20303, // Standard voice
-			Language: englishID,
+			Language: cambai.LanguagesEnUs,
 		},
 	)
 	if err != nil {
@@ -50,7 +37,7 @@ func main() {
 	}
 
 	fmt.Printf("TTS Task Created! TaskID: %s\n", resp.TaskID)
-	
+
 	// Parse Task ID (which is returned as string from CreateTts but required as int for GetRunInfo)
 	runID, err := strconv.Atoi(resp.TaskID)
 	if err != nil {
@@ -66,18 +53,18 @@ func main() {
 			fmt.Printf("Error polling: %v\n", err)
 			continue
 		}
-		
+
 		fmt.Printf("Status Response Received.\n")
 		// The status response is a union type. We check fields.
 		if status.GetTtsResultOutFileURL != nil {
 			fmt.Printf("Success! Audio URL: %s\n", status.GetTtsResultOutFileURL.OutputURL)
 			break
 		}
-		
+
 		if status.String != "" {
 			fmt.Printf("Status: %s\n", status.String)
 			if status.String == "SUCCESS" {
-				// Wait, if it is success, we expect FileURL. 
+				// Wait, if it is success, we expect FileURL.
 				// Maybe the union type handling depends on actual JSON structure.
 			}
 		}

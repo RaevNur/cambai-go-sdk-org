@@ -21,35 +21,15 @@ func main() {
 	c := client.NewClient(option.WithAPIKey(apiKey))
 
 	fmt.Println("Starting Dubbing Task...")
-	
+
 	videoURL := "https://github.com/Camb-ai/cambai-python-sdk/raw/main/tests/data/test_video.mp4"
-	
-	// Fetch Language IDs
-	sourceLangs, _ := c.Languages.GetSourceLanguages(context.Background(), &cambai.GetSourceLanguagesSourceLanguagesGetRequest{})
-	targetLangs, _ := c.Languages.GetTargetLanguages(context.Background(), &cambai.GetTargetLanguagesTargetLanguagesGetRequest{})
-	
-	var sourceID, targetID int
-	for _, l := range sourceLangs {
-		if l.ShortName == "en-us" {
-			sourceID = l.ID
-			break
-		}
-	}
-	for _, l := range targetLangs {
-		if l.ShortName == "fr-fr" {
-			targetID = l.ID
-			break
-		}
-	}
-	if sourceID == 0 { sourceID = 1 } // Fallback
-	if targetID == 0 { targetID = 2 } // Fallback
 
 	resp, err := c.Dub.EndToEndDubbing(
 		context.Background(),
 		&cambai.EndToEndDubbingRequestPayload{
 			VideoURL:        videoURL, // Not a pointer
-			SourceLanguage:  sourceID,
-			TargetLanguages: []cambai.Languages{targetID},
+			SourceLanguage:  cambai.LanguagesEnUs,
+			TargetLanguages: []cambai.Languages{cambai.LanguagesFrFr},
 		},
 	)
 	if err != nil {
@@ -88,7 +68,7 @@ func main() {
 				if err != nil {
 					panic(err)
 				}
-				
+
 				if res.DubbingResult != nil && res.DubbingResult.VideoURL != nil {
 					fmt.Printf("Success! Video URL: %s\n", *res.DubbingResult.VideoURL)
 				} else {
