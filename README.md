@@ -62,15 +62,8 @@ func main() {
     // 1. Initiate TTS Task
     
     // Fetch Language ID for English (United States)
-    sourceLangs, _ := c.Languages.GetSourceLanguages(context.Background(), &cambai.GetSourceLanguagesSourceLanguagesGetRequest{})
-    var englishID int
-    for _, l := range sourceLangs {
-        if l.ShortName == "en-us" {
-            englishID = l.ID
-            break
-        }
-    }
-    if englishID == 0 { englishID = 1 }
+    // You can use the constants directly
+    englishID := cambai.LanguagesEnUs
 
     resp, err := c.TextToSpeech.CreateTts(
         context.Background(),
@@ -130,14 +123,12 @@ func main() {
     // 1. Create Dubbing Task
     videoURL := "https://example.com/video.mp4"
     
-    // Logic to find language IDs omitted for brevity, see examples/dubbing/main.go
-    
     resp, _ := c.Dub.EndToEndDubbing(
         context.Background(),
         &cambai.EndToEndDubbingRequestPayload{
             VideoURL:        videoURL,
-            SourceLanguage:  1, // en-us
-            TargetLanguages: []cambai.Languages{2}, // fr-fr
+            SourceLanguage:  cambai.LanguagesEnUs,
+            TargetLanguages: []cambai.Languages{cambai.LanguagesFrFr},
         },
     )
 
