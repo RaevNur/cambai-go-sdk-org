@@ -5,6 +5,7 @@ package cambai
 import (
 	json "encoding/json"
 	fmt "fmt"
+
 	core "github.com/camb-ai/cambai-go-sdk/core"
 )
 
@@ -187,6 +188,8 @@ type StreamTtsInferenceOptions struct {
 	Temperature       *float64 `json:"temperature,omitempty" url:"temperature,omitempty"`
 	InferenceSteps    *int     `json:"inference_steps,omitempty" url:"inference_steps,omitempty"`
 	SpeakerSimilarity *float64 `json:"speaker_similarity,omitempty" url:"speaker_similarity,omitempty"`
+	LocalizeSpeakerWeight *float64 `json:"localize_speaker_weight,omitempty" url:"localize_speaker_weight,omitempty"`
+	AcousticQualityBoost *bool `json:"acoustic_quality_boost,omitempty" url:"acoustic_quality_boost,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -263,6 +266,7 @@ func (s *StreamTtsOutputConfiguration) String() string {
 type StreamTtsVoiceSettings struct {
 	EnhanceReferenceAudioQuality *bool `json:"enhance_reference_audio_quality,omitempty" url:"enhance_reference_audio_quality,omitempty"`
 	MaintainSourceAccent         *bool `json:"maintain_source_accent,omitempty" url:"maintain_source_accent,omitempty"`
+	ApplyRefLoudnessNorm         *bool `json:"apply_ref_loudness_norm,omitempty" url:"apply_ref_loudness_norm,omitempty"`
 
 	_rawJSON json.RawMessage
 }
